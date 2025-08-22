@@ -1,28 +1,31 @@
 import random
 import string
+import os
 
 def Guess(random_number, guess):
-    iguess = 0
-    jguess = 0
 
     if random_number == guess:
-        print('You got it!')
-        
+        print('You got it!\n'
+              'Would you like to play again? (yes or no)')
+        print('> ', end='')
 
-    for i in random_number:
-        for j in guess:
-            if i == j:
-                if iguess == jguess:
-                    print('Fermi')
-                elif i == j:
-                    print('Pico')
-                else: print('Bagels')
-                
-                iguess += 1
+        if input() == 'yes':
+            print('\n')
+            os.system('clear')
+            StartGame()
+        else:
+            os.system('clear')
+            exit(0)
 
-                if iguess == 2:
-                    iguess = 0
-                    jguess += 1
+
+    for i in range(len(guess)):
+        if guess[i] == random_number[i]:
+            print('Fermi')
+        elif guess[i] in random_number:
+            print('Pico')
+        else:
+            print('Bagels')
+    
                 
 
 def GameLoop():
@@ -30,13 +33,32 @@ def GameLoop():
     length = 3
 
     random_number = ''.join(random.choices(string.digits, k=length)) # creates random number
-    print(f'Guess #{guessCounter}:')
-    print(random_number)
+
+    #print(random_number) # The Answer
 
     while True:
+        print(f'Guess #{guessCounter}:')
         print('> ', end="")
         guess = input() 
-        Guess(random_number, guess)
+        guessCounter += 1
+        
+        if guessCounter < 11:
+            Guess(random_number, guess)
+
+        elif guessCounter > 10:
+            print('You ran out of guesses.')
+            print(f'The correct answer was {random_number}')
+            print('Would you like to try again?')
+            print('> ', end='')
+
+            if input() == 'yes':
+                print('\n')
+                os.system('clear')
+                StartGame()
+            else:
+                os.system('clear')
+                exit(0)
+
 
 
 
@@ -57,4 +79,5 @@ def StartGame():
             
 
 if __name__ == '__main__':
+    os.system('clear')
     StartGame()    
